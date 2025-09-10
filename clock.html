@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weeeeeeeeeeeeee</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #0a0a2a, #1a1a40, #0a0a2a);
+            color: #e0e0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Starry background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        /* Container styles */
+        .container {
+            background: rgba(10, 10, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(110, 142, 251, 0.3);
+            z-index: 1;
+        }
+        
+        /* Header styles */
+        h1 {
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 0 0 10px rgba(110, 142, 251, 0.5);
+        }
+        
+        .description {
+            color: #a0a0ff;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Input section */
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            text-align: left;
+            padding: 20px;
+            background: rgba(26, 26, 64, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(110, 142, 251, 0.2);
+        }
+        
+        .input-group h3 {
+            margin-bottom: 15px;
+            color: #a777e3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #6e8efb;
+            font-weight: 600;
+        }
+        
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(110, 142, 251, 0.3);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(10, 10, 42, 0.7);
+            color: #e0e0ff;
+        }
+        
+        input[type="datetime-local"]:focus {
+            border-color: #6e8efb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.3);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            accent-color: #6e8efb;
+        }
+        
+        /* Button styles */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 16px 35px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(110, 142, 251, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.secondary {
+            background: linear-gradient(to right, #fd9b9b, #f66);
+        }
+        
+        /* Result section */
+        .result {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(to bottom right, rgba(26, 26, 64, 0.7), rgba(10, 10, 42, 0.7));
+            border-radius: 15px;
+            display: none;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(110, 142, 251, 0.2);
+        }
+        
+        .result h2 {
+            color: #a777e3;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .countdown {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #6e8efb;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .breakdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .time-unit {
+            background: rgba(10, 10, 42, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(110, 142, 251, 0.2);
+        }
+        
+        .time-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6e8efb;
+        }
+        
+        .time-label {
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+        
+        .message {
+            font-style: italic;
+            color: #a0a0ff;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        
+        /* History section */
+        .history {
+            margin-top: 40px;
+            text-align: left;
+            background: rgba(26, 26, 64, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            border: 1px solid rgba(110, 142, 251, 0.2);
+        }
+        
+        .history h3 {
+            margin-bottom: 15px;
+            color: #a777e3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #history-list {
+            list-style-type: none;
+        }
+        
+        #history-list li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(110, 142, 251, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #history-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .delete-btn {
+            background: #f66;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .breakdown {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .countdown {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+
+/* Popout window styles */
+.popout-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: rgba(10, 10, 42, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(110, 142, 251, 0.3);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.popout-header {
+    padding: 12px 15px;
+    background: rgba(26, 26, 64, 0.9);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    border-bottom: 1px solid rgba(110, 142, 251, 0.2);
+}
+
+.popout-title {
+    color: #a777e3;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.popout-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.popout-controls button {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 12px;
+    background: rgba(110, 142, 251, 0.2);
+    border: 1px solid rgba(110, 142, 251, 0.3);
+}
+
+.popout-controls button:hover {
+    background: rgba(110, 142, 251, 0.4);
+}
+
+.popout-content {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.popout-minimized {
+    height: 40px;
+    width: 200px;
+}
+
+.popout-minimized .popout-content {
+    display: none;
+}
+
+.popout-fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    border-radius: 0;
+}
+
+.popout-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #6e8efb, #a777e3);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popout-button:hover {
+    transform: scale(1.1);
+}
+
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <h1><i class="fas fa-moon"></i> welcome seth , <bold>lets get this done </bold></h1>
+        
+        <p class="description">Calculate exactly how much time remains between two dates under the stars. Perfect for tracking deadlines, events, and milestones.</p>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <h3><i class="fas fa-play-circle"></i> Start Date</h3>
+                <label for="start-date">Select Start Date and Time:</label>
+                <input type="datetime-local" id="start-date">
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="use-current-start" checked>
+                    <label for="use-current-start">Use current time</label>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <h3><i class="fas fa-flag-checkered"></i> End Date</h3>
+                <label for="end-date">Select End Date and Time:</label>
+                <input type="datetime-local" id="end-date">
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="use-sunday-default" checked>
+                    <label for="use-sunday-default">Set to next Sunday 12 AM</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button onclick="calculateCountdown()">
+                <i class="fas fa-calculator"></i> Calculate Countdown
+            </button>
+            <button onclick="saveCountdown()" class="secondary">
+                <i class="fas fa-save"></i> Save Countdown
+            </button>
+            <button onclick="resetForm()" class="secondary">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+        
+        <div class="result" id="result">
+            <h2><i class="fas fa-hourglass-half"></i> Countdown Result</h2>
+            <p>Time between your selected dates:</p>
+            <div class="countdown" id="countdown">00:00:00:00</div>
+            
+            <div class="breakdown">
+                <div class="time-unit">
+                    <div class="time-value" id="days">0</div>
+                    <div class="time-label">Days</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="hours">0</div>
+                    <div class="time-label">Hours</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="minutes">0</div>
+                    <div class="time-label">Minutes</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="seconds">0</div>
+                    <div class="time-label">Seconds</div>
+                </div>
+            </div>
+            
+            <p class="message" id="message"></p>
+        </div>
+        
+        <div class="history" id="history">
+            <h3><i class="fas fa-history"></i> Saved Countdowns</h3>
+            <ul id="history-list"></ul>
+        </div>
+        
+        <footer>
+            <p>Created with pure self hatred | fuck you and your grandmas</p>
+        </footer>
+        </div> <!-- Closing the .container div -->
+    
+    <button class="popout-button" id="popout-toggle">
+        <i class="fas fa-external-link-alt"></i>
+    </button>
+    
+    <div class="popout-window" id="popout-window">
+        <div class="popout-header" id="popout-header">
+            <div class="popout-title">Countdown Calculator</div>
+            <div class="popout-controls">
+                <button id="popout-minimize"><i class="fas fa-minus"></i></button>
+                <button id="popout-fullscreen"><i class="fas fa-expand"></i></button>
+                <button id="popout-close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="popout-content" id="popout-content">
+            <!-- Popout content will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        // Create interactive stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 200;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Randomize star properties
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = 3 + Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.animationDuration = `${duration}s`;
+                
+                // Make stars interactive
+                star.addEventListener('mouseover', () => {
+                    star.style.transform = 'scale(2.5)';
+                    star.style.backgroundColor = '#a777e3';
+                });
+                
+                star.addEventListener('mouseout', () => {
+                    star.style.transform = 'scale(1)';
+                    star.style.backgroundColor = 'white';
+                });
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Function to get next Sunday at 12:00 AM
+        function getNextSunday() {
+            const today = new Date();
+            const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+            // Calculate days until next Sunday
+            let daysUntilSunday = 7 - dayOfWeek;
+            if (dayOfWeek === 0) {
+                // If today is Sunday, check if we're past midnight
+                if (today.getHours() > 0 || today.getMinutes() > 0) {
+                    daysUntilSunday = 7; // Next Sunday
+                } else {
+                    daysUntilSunday = 0; // Today is Sunday at exactly midnight
+                }
+            }
+            
+            const nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + daysUntilSunday);
+            nextSunday.setHours(0, 0, 0, 0);
+            return nextSunday;
+        }
+        
+        // Set default values on load
+        window.onload = function() {
+            createStars(); // Create the starry background
+            
+            const now = new Date();
+            
+            // Format for datetime-local input (YYYY-MM-DDTHH:MM)
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            
+            const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            
+            // Set start date to current time
+            document.getElementById('start-date').value = currentDateTime;
+            
+            // Set end date to next Sunday at 12:00 AM
+            const nextSunday = getNextSunday();
+            const sundayYear = nextSunday.getFullYear();
+            const sundayMonth = (nextSunday.getMonth() + 1).toString().padStart(2, '0');
+            const sundayDay = nextSunday.getDate().toString().padStart(2, '0');
+            
+            const sundayDateTime = `${sundayYear}-${sundayMonth}-${sundayDay}T00:00`;
+            document.getElementById('end-date').value = sundayDateTime;
+            
+            // Load saved countdowns
+            loadHistory();
+        };
+        
+        // Toggle current time for start date
+        document.getElementById('use-current-start').addEventListener('change', function() {
+            if (this.checked) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                const day = now.getDate().toString().padStart(2, '0');
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                
+                const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+                document.getElementById('start-date').value = currentDateTime;
+            }
+        });
+        
+        // Toggle Sunday default for end date
+        document.getElementById('use-sunday-default').addEventListener('change', function() {
+            if (this.checked) {
+                const nextSunday = getNextSunday();
+                const sundayYear = nextSunday.getFullYear();
+                const sundayMonth = (nextSunday.getMonth() + 1).toString().padStart(2, '0');
+                const sundayDay = nextSunday.getDate().toString().padStart(2, '0');
+                
+                const sundayDateTime = `${sundayYear}-${sundayMonth}-${sundayDay}T00:00`;
+                document.getElementById('end-date').value = sundayDateTime;
+            }
+        });
+        
+        function calculateCountdown() {
+            const startDateInput = document.getElementById('start-date').value;
+            const endDateInput = document.getElementById('end-date').value;
+            
+            if (!startDateInput || !endDateInput) {
+                alert('Please select both start and end dates!');
+                return;
+            }
+            
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+            
+            // Check if the end date is before start date
+            if (endDate <= startDate) {
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('countdown').textContent = '00:00:00:00';
+                document.getElementById('message').textContent = 'End date must be after start date!';
+                return;
+            }
+            
+            // Calculate initial time difference
+            updateCountdown(startDate, endDate);
+            
+            // Update the countdown every second if using current time
+            const useCurrent = document.getElementById('use-current-start').checked;
+            
+            if (useCurrent) {
+                const countdownInterval = setInterval(() => {
+                    if (!updateCountdown(startDate, endDate)) {
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+            }
+            
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('message').textContent = `From ${formatDate(startDate)} to ${formatDate(endDate)}`;
+        }
+        
+        function updateCountdown(startDate, endDate) {
+            const now = new Date();
+            let actualStartDate = startDate;
+            
+            // If using current time for start, update the start date to now
+            if (document.getElementById('use-current-start').checked) {
+                actualStartDate = now;
+            }
+            
+            const timeDifference = endDate - actualStartDate;
+            
+            if (timeDifference <= 0) {
+                document.getElementById('countdown').textContent = '00:00:00:00';
+                document.getElementById('message').textContent = 'Time is up!';
+                return false;
+            }
+            
+            // Calculate days, hours, minutes, and seconds
+            const totalSeconds = Math.floor(timeDifference / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            
+            // Update the countdown display
+            document.getElementById('countdown').textContent = 
+                `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update individual time units
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            return true;
+        }
+        
+        function resetForm() {
+            document.getElementById('start-date').value = '';
+            document.getElementById('end-date').value = '';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('use-current-start').checked = true;
+            document.getElementById('use-sunday-default').checked = true;
+            
+            // Reset to default values
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            
+            const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            document.getElementById('start-date').value = currentDateTime;
+            
+            const nextSunday = getNextSunday();
+            const sundayYear = nextSunday.getFullYear();
+            const sundayMonth = (nextSunday.getMonth() + 1).toString().padStart(2, '0');
+            const sundayDay = nextSunday.getDate().toString().padStart(2, '0');
+            
+            const sundayDateTime = `${sundayYear}-${sundayMonth}-${sundayDay}T00:00`;
+            document.getElementById('end-date').value = sundayDateTime;
+        }
+        
+        function formatDate(date) {
+            return date.toLocaleString([], { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+        
+        function saveCountdown() {
+            const startDateInput = document.getElementById('start-date').value;
+            const endDateInput = document.getElementById('end-date').value;
+            
+            if (!startDateInput || !endDateInput) {
+                alert('Please calculate a countdown first!');
+                return;
+            }
+            
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+            
+            if (endDate <= startDate) {
+                alert('Cannot save invalid countdown!');
+                return;
+            }
+            
+            const countdown = {
+                start: startDate.toISOString(),
+                end: endDate.toISOString(),
+                created: new Date().toISOString()
+            };
+            
+            // Get existing history or initialize empty array
+            let history = JSON.parse(localStorage.getItem('countdownHistory')) || [];
+            
+            // Add new countdown to history
+            history.push(countdown);
+            
+            // Save back to localStorage
+            localStorage.setItem('countdownHistory', JSON.stringify(history));
+            
+            // Refresh history display
+            loadHistory();
+            
+            alert('Countdown saved successfully!');
+        }
+        
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('countdownHistory')) || [];
+            const historyList = document.getElementById('history-list');
+            const historySection = document.getElementById('history');
+            
+            // Show history section if there are saved countdowns
+            if (history.length > 0) {
+                historySection.style.display = 'block';
+            } else {
+                historySection.style.display = 'none';
+                return;
+            }
+            
+            // Clear existing list
+            historyList.innerHTML = '';
+            
+            // Add each countdown to the list
+            history.forEach((item, index) => {
+                const startDate = new Date(item.start);
+                const endDate = new Date(item.end);
+                
+                const li = document.createElement('li');
+                
+                // Calculate time difference
+                const diff = endDate - startDate;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                li.innerHTML = `
+                    <div>
+                        <strong>${formatDate(startDate)}</strong> to 
+                        <strong>${formatDate(endDate)}</strong>
+                        <div>${days}d ${hours}h</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteCountdown(${index})"><i class="fas fa-trash"></i></button>
+                `;
+                
+                historyList.appendChild(li);
+            });
+        }
+        
+        function deleteCountdown(index) {
+            let history = JSON.parse(localStorage.getItem('countdownHistory')) || [];
+            
+            // Remove the countdown at the specified index
+            history.splice(index, 1);
+            
+            // Save updated history back to localStorage
+            localStorage.setItem('countdownHistory', JSON.stringify(history));
+            
+            // Refresh history display
+            loadHistory();
+        }
+// Popout window functionality
+let isDragging = false;
+let dragOffset = { x: 0, y: 0 };
+let isPopoutMinimized = false;
+let isPopoutFullscreen = false;
+
+// Initialize popout window
+function initPopout() {
+    const popoutToggle = document.getElementById('popout-toggle');
+    const popoutWindow = document.getElementById('popout-window');
+    const popoutHeader = document.getElementById('popout-header');
+    const popoutContent = document.getElementById('popout-content');
+    const popoutMinimize = document.getElementById('popout-minimize');
+    const popoutFullscreen = document.getElementById('popout-fullscreen');
+    const popoutClose = document.getElementById('popout-close');
+    
+    // Clone calculator content for popout
+    const calculatorContent = document.querySelector('.container').cloneNode(true);
+    popoutContent.appendChild(calculatorContent);
+    
+    // Make popout window draggable
+    popoutHeader.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDrag);
+    
+    // Popout toggle button
+    popoutToggle.addEventListener('click', () => {
+        popoutWindow.style.display = popoutWindow.style.display === 'none' ? 'flex' : 'none';
+    });
+    
+    // Minimize button
+    popoutMinimize.addEventListener('click', () => {
+        isPopoutMinimized = !isPopoutMinimized;
+        popoutWindow.classList.toggle('popout-minimized', isPopoutMinimized);
+        popoutMinimize.innerHTML = isPopoutMinimized ? 
+            '<i class="fas fa-window-maximize"></i>' : 
+            '<i class="fas fa-minus"></i>';
+    });
+    
+    // Fullscreen button
+    popoutFullscreen.addEventListener('click', () => {
+        isPopoutFullscreen = !isPopoutFullscreen;
+        popoutWindow.classList.toggle('popout-fullscreen', isPopoutFullscreen);
+        popoutFullscreen.innerHTML = isPopoutFullscreen ? 
+            '<i class="fas fa-compress"></i>' : 
+            '<i class="fas fa-expand"></i>';
+    });
+    
+    // Close button
+    popoutClose.addEventListener('click', () => {
+        popoutWindow.style.display = 'none';
+    });
+    
+    // Initially hide the popout window
+    popoutWindow.style.display = 'none';
+}
+
+// Drag functions
+function startDrag(e) {
+    if (isPopoutFullscreen) return;
+    isDragging = true;
+    const popoutWindow = document.getElementById('popout-window');
+    const rect = popoutWindow.getBoundingClientRect();
+    dragOffset.x = e.clientX - rect.left;
+    dragOffset.y = e.clientY - rect.top;
+    popoutWindow.style.cursor = 'grabbing';
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    const popoutWindow = document.getElementById('popout-window');
+    popoutWindow.style.left = (e.clientX - dragOffset.x) + 'px';
+    popoutWindow.style.top = (e.clientY - dragOffset.y) + 'px';
+    popoutWindow.style.right = 'unset';
+    popoutWindow.style.bottom = 'unset';
+}
+
+function stopDrag() {
+    isDragging = false;
+    const popoutWindow = document.getElementById('popout-window');
+    popoutWindow.style.cursor = 'default';
+}
+
+// Initialize popout when window loads
+window.addEventListener('load', initPopout);
+
+
+    </script>
+</body>
+</html>
